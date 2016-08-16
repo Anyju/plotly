@@ -62,6 +62,7 @@ HTMLWidgets.widget({
           attachKey("key");
           return obj; 
         });
+        console.log(".clientValue-" + eventType + "-" + x.source);
         Shiny.onInputChange(
           ".clientValue-" + eventType + "-" + x.source, 
           JSON.stringify(d)

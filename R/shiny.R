@@ -46,12 +46,14 @@ renderPlotly <- function(expr, env = parent.frame(), quoted = FALSE) {
 #' }
 
 event_data <- function(event = c("plotly_hover", "plotly_click", "plotly_selected", 
-                                 "plotly_relayout"), source = "A") {
-  session <- shiny::getDefaultReactiveDomain()
+                                 "plotly_relayout"), source = "A", 
+                       session = shiny::getDefaultReactiveDomain()) {
   if (is.null(session)) {
     stop("No reactive domain detected. This function can only be called \n",
          "from within a reactive shiny context.")
   }
-  val <- session$input[[sprintf(".clientValue-%s-%s", event[1], source)]]
+  source <- session$ns(source)
+  valName <- sprintf(".clientValue-%s-%s", match.arg(event), source)
+  val <- session$input[[valName]]
   if (is.null(val)) val else jsonlite::fromJSON(val)
 }
